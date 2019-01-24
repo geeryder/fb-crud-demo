@@ -1,0 +1,23 @@
+<h1>Get: {{readingNow?.name}}</h1>
+<h1>Sync: {{(syncedReadingNow | async)?.name}}</h1>
+
+<fieldset name="addBook">
+    <input [disabled]= "addButtonDisabled" #bookTitle type="text">
+    <button [disabled]= "addButtonDisabled" (click)= "add(bookTitle)" >Add</button>
+    </fieldset>
+    
+    <fieldset name="bookList">
+      <div *ngFor = "let book of books | async" class ="book">
+        <label for="book-1">
+          <input id="book-1" type="checkbox" [(ngModel)]="book.isRead" (change)="update(book)">
+          {{book.name}}
+          {{ book.date.toDate() | date: 'd.M.yy' }}
+        </label>
+        <p> {{ book | json }}</p>
+        
+        <button (click)= "sync(book.id)" ><i class="fas fa-sync"></i></button>
+        <button (click)= "get(book.id)"><i class="fas fa-download"></i></button>
+        <button (click)= "delete(book)"><i class="fas fa-times"></i></button>
+        <p>JSON</p>
+      </div>
+    </fieldset>
